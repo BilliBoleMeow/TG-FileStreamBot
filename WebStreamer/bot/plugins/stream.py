@@ -26,7 +26,7 @@ from pyrogram.errors import UserNotParticipant
     ),
     group=4,
 )
-async def media_receive_handler(client, m: Message):
+async def media_receive_handler(_, m: Message):
     banned_users = Var.BANNED_USERS.split() if Var.BANNED_USERS else []
     if str(m.from_user.id) in banned_users:
         return await m.reply("You are banned from using this bot.", quote=True)
@@ -61,7 +61,6 @@ async def media_receive_handler(client, m: Message):
             ),
         )
         
-        await log_msg.reply_text(text=f"Requested by [{m.from_user.first_name}](tg://user?id={m.from_user.id})\n**User ID:** `{m.from_user.id}`\n**Download Link:** {stream_link}\n**Rapid Link:** {short_link}", disable_web_page_preview=True, parse_mode=ParseMode.MARKDOWN, quote=True)
     except Exception as e:
         logger.exception(e) # Log the error
         await m.reply("Something went wrong. Please contact the bot admin for support.", quote=True)
