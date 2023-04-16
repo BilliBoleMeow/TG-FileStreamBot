@@ -64,7 +64,3 @@ async def media_receive_handler(_, m: Message):
             parse_mode=ParseMode.HTML,
             reply_markup=rm,
         )
-        
-    except Exception as e:
-        logger.exception(e) # Log the error
-        await m.reply("Something went wrong. Please contact the bot admins at @LiquidXProjects for support.", quote=True)
