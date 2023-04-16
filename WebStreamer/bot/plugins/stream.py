@@ -46,24 +46,24 @@ async def media_receive_handler(_, m: Message):
         return await m.reply("You are not <b>allowed to use</b> this <a href='https://github.com/EverythingSuckz/TG-FileStreamBot'>bot</a>.", quote=True)
     try:
         log_msg = await m.forward(chat_id=Var.BIN_CHANNEL)
-    stream_link = f"{Var.URL}{log_msg.id}/{quote_plus(get_name(m))}?hash={get_hash(log_msg)}"
-    short_link = f"{Var.URL}{get_hash(log_msg)}{log_msg.id}"
-    logging.info(f"Generated link: {stream_link} for {m.from_user.first_name}")
-    rm = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("Download Now", url=stream_link)],
-             [InlineKeyboardButton('Want More Movies & TVShows - Tap Here', url=f"https://t.me/fileservingbot")]]
-    )
-    if Var.FQDN == Var.BIND_ADDRESS:
-        # dkabl
-        rm = None
-    await m.reply_text(
-        text="𝗬𝗼𝘂𝗿 𝗟𝗶𝗻𝗸 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗲𝗱 !\n<b>Copy The Download Link Or Tap On Download Now.</b>\n\n                                      (<a href='{}'><b>Download Link</b></a>)".format(
+        stream_link = f"{Var.URL}{log_msg.id}/{quote_plus(get_name(m))}?hash={get_hash(log_msg)}"
+        short_link = f"{Var.URL}{get_hash(log_msg)}{log_msg.id}"
+        logging.info(f"Generated link: {stream_link} for {m.from_user.first_name}")
+        rm = InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Download Now", url=stream_link)],
+                 [InlineKeyboardButton('Want More Movies & TVShows - Tap Here', url=f"https://t.me/fileservingbot")]]
+        )
+        if Var.FQDN == Var.BIND_ADDRESS:
+            # dkabl
+            rm = None
+        await m.reply_text(
+            text="𝗬𝗼𝘂𝗿 𝗟𝗶𝗻𝗸 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗲𝗱 !\n<b>Copy The Download Link Or Tap On Download Now.</b>\n\n                                      (<a href='{}'><b>Download Link</b></a>)".format(
                      short_link
-        ),
-        quote=True,
-        parse_mode=ParseMode.HTML,
-        reply_markup=rm,
-    )
+            ),
+            quote=True,
+            parse_mode=ParseMode.HTML,
+            reply_markup=rm,
+        )
         
     except Exception as e:
         logger.exception(e) # Log the error
