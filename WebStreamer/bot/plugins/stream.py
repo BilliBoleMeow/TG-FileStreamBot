@@ -45,22 +45,23 @@ async def media_receive_handler(_, m: Message):
     if Var.ALLOWED_USERS and not ((str(m.from_user.id) in Var.ALLOWED_USERS) or (m.from_user.username in Var.ALLOWED_USERS)):
         return await m.reply("You are not <b>allowed to use</b> this <a href='https://github.com/EverythingSuckz/TG-FileStreamBot'>bot</a>.", quote=True)
     try:
-        log_msg = await m.forward(chat_id=Var.BIN_CHANNEL)
-        stream_link = f"{Var.URL}{log_msg.id}/{quote_plus(get_name(m))}?hash={get_hash(log_msg)}"
-        short_link = f"{Var.URL}{get_hash(log_msg)}{log_msg.id}"
-        logging.info(f"Generated link: {stream_link} for {m.from_user.first_name}")
-        rm = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Download Now", url=stream_link)],
-                 [InlineKeyboardButton('Want More Movies & TVShows - Tap Here', url=f"https://t.me/fileservingbot")]]
-        )
-        if Var.FQDN == Var.BIND_ADDRESS:
-            # dkabl
-            rm = None
+        log_msg = await m.forward(chat_id=Var.BIN_CHANNEL)     
+        file_hash = get_hash(log_msg, Var.HASH_LENGTH)
+        stream_link = f"{Var.URL}{log_msg.id}/{quote_plus(get_name(m))}?hash={file_hash}"
+        short_link = f"{Var.URL}{file_hash}{log_msg.id}"
+        logger.info(f"Generated link: {stream_link} for {m.from_user.first_name}")
         await m.reply_text(
             text="𝗬𝗼𝘂𝗿 𝗟𝗶𝗻𝗸 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗲𝗱 !\n<b>Copy The Download Link Or Tap On Download Now.</b>\n\n                                      (<a href='{}'><b>Download Link</b></a>)".format(
                      short_link
-            ),
+        ),
             quote=True,
             parse_mode=ParseMode.HTML,
-            reply_markup=rm,
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton("Open", url=stream_link)]]
+            ),
         )
+        
+  
+    except Exception as e:
+        logger.exception(e) # Log the error
+        await m.reply("Something went wrong. Please contact the bot admins at @liquidxprojects for support.", quote=True)
