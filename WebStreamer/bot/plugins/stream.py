@@ -34,7 +34,7 @@ async def media_receive_handler(_, m: Message):
     try:
         user = await client.get_chat_member(Var.UPDATES_CHANNEL, user_id=m.from_user.id)
     except UserNotParticipant:
-        return await m.reply(text="""<i>Join The Update Channel To Use Me.</i>""",
+        return await m.reply(text="""<i>Join The Update Channel By Tapping The Join Now Button, To Use The Bot.</i>""",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -63,4 +63,4 @@ async def media_receive_handler(_, m: Message):
         
     except Exception as e:
         logger.exception(e) # Log the error
-        await m.reply("Something went wrong. Please contact the bot admin @iamLiquidX for support.", quote=True)
+        await m.reply("Something went wrong. Please contact the bot admins at @LiquidXProjects for support.", quote=True)
